@@ -1,0 +1,58 @@
+{
+  "name": "oss-governance-bot",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Speed up issue triaging with automated chat-bot and chat-ops operations with quality control hierarchy",
+  "main": "lib/main.js",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write **/*.ts",
+    "lint": "eslint --fix src/**/*.ts",
+    "pack": "ncc build --source-map --license licenses.txt",
+    "test": "jest",
+    "test:coverage": "jest --ci --coverage && codecov",
+    "all": "npm run build && npm run format && npm run lint && npm run pack && npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BirthdayResearch/oss-governance-bot.git"
+  },
+  "keywords": [
+    "actions",
+    "open source",
+    "project management",
+    "goverenance"
+  ],
+  "author": {
+    "name": "Birthday Research",
+    "email": "oss@birthday.dev"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "@actions/github": "^4.0.0",
+    "fp-ts": "^2.11.4",
+    "io-ts": "^2.2.16",
+    "io-ts-reporters": "^1.2.2",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.24",
+    "@types/js-yaml": "^4.0.9",
+    "@types/lodash": "^4.14.194",
+    "@types/node": "^16.18.74",
+    "@typescript-eslint/parser": "^5.32.0",
+    "@vercel/ncc": "^0.31.1",
+    "codecov": "^3.8.2",
+    "eslint": "^7.32.0",
+    "eslint-plugin-github": "^4.1.1",
+    "eslint-plugin-jest": "^26.9.0",
+    "jest": "^26.6.3",
+    "jest-circus": "^26.6.3",
+    "nock": "^13.3.0",
+    "prettier": "2.2.1",
+    "ts-jest": "^26.5.6",
+    "typescript": "^4.1.5",
+    "wait-for-expect": "^3.0.2"
+  }
+}

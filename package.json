@@ -1,0 +1,59 @@
+{
+  "name": "oss-governance-bot",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Speed up issue triaging with automated chat-bot and chat-ops operations with quality control hierarchy",
+  "main": "lib/main.js",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write **/*.ts",
+    "lint": "eslint --fix src/**/*.ts",
+    "pack": "ncc build --source-map --license licenses.txt",
+    "test": "jest",
+    "test:coverage": "jest --ci --coverage && codecov",
+    "all": "npm run build && npm run format && npm run lint && npm run pack && npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DeFiCh/oss-governance-bot.git"
+  },
+  "keywords": [
+    "actions",
+    "open source",
+    "project management",
+    "goverenance"
+  ],
+  "author": {
+    "name": "DeFiChain Foundation",
+    "email": "engineering@defichain.com",
+    "url": "https://defichain.com/"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "@actions/github": "^4.0.0",
+    "fp-ts": "^2.11.4",
+    "io-ts": "^2.2.16",
+    "io-ts-reporters": "^1.2.2",
+    "js-yaml": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "@types/js-yaml": "^4.0.0",
+    "@types/lodash": "^4.14.168",
+    "@types/node": "^14.14.26",
+    "@typescript-eslint/parser": "^4.15.0",
+    "@vercel/ncc": "^0.31.1",
+    "codecov": "^3.8.1",
+    "eslint": "^7.32.0",
+    "eslint-plugin-github": "^4.1.1",
+    "eslint-plugin-jest": "^24.1.3",
+    "jest": "^26.4.4",
+    "jest-circus": "^26.4.4",
+    "nock": "^13.1.3",
+    "prettier": "2.2.1",
+    "ts-jest": "^26.5.1",
+    "typescript": "^4.1.5",
+    "wait-for-expect": "^3.0.2"
+  }
+}

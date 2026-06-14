@@ -9,6 +9,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 | Version | Tag | Upstream commit |
 |---------|-----|-----------------|
 | v2.0.9 | [`v2.0.9`](https://github.com/chainguard-actions/BirthdayResearch-oss-governance-bot/tree/v2.0.9) | [`99f1d48`](https://github.com/BirthdayResearch/oss-governance-bot/commit/99f1d488fe91acc397cdac556f3c6bd309f28460) |
+| v3.0.0 | [`v3.0.0`](https://github.com/chainguard-actions/BirthdayResearch-oss-governance-bot/tree/v3.0.0) | [`37c8583`](https://github.com/BirthdayResearch/oss-governance-bot/commit/37c8583c6b8596d173b68ffaed543e2485f4f193) |
 | v4.0.0 | [`v4.0.0`](https://github.com/chainguard-actions/BirthdayResearch-oss-governance-bot/tree/v4.0.0) | [`3abd2d1`](https://github.com/BirthdayResearch/oss-governance-bot/commit/3abd2d1fd2376ba9990fbc795e7a4c54254e9c61) |
 
 ## Privacy

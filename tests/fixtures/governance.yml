@@ -1,0 +1,53 @@
+version: v1
+
+issue:
+  labels:
+    - prefix: triage
+      list: ["accepted", "needs-info"]
+      multiple: false
+      author_association:
+        collaborator: true
+        member: true
+        owner: true
+      needs:
+        comment: |
+          @$AUTHOR: This issue is currently awaiting triage.
+
+  chat_ops:
+    - cmd: /close
+      type: close
+      author_association:
+        author: true
+        collaborator: true
+        member: true
+        owner: true
+
+    - cmd: /assign
+      type: assign
+      author_association:
+        collaborator: true
+        member: true
+        owner: true
+
+pull_request:
+  labels:
+    - prefix: kind
+      list: ["feature", "fix", "chore", "docs"]
+      multiple: false
+      needs:
+        comment: |
+          @$AUTHOR: Please add a kind label to this PR.
+        status:
+          context: "Governance / Kind Label"
+          description:
+            success: Ready for review.
+            failure: Missing kind label.
+
+  chat_ops:
+    - cmd: /close
+      type: close
+      author_association:
+        author: true
+        collaborator: true
+        member: true
+        owner: true

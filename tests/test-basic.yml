@@ -1,0 +1,30 @@
+name: Test basic usage with default config path
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - id: action
+        name: Run OSS Governance Bot with default config path
+        uses: .
+        with:
+          github-token: ${{ github.token }}
+        continue-on-error: true
+
+      - name: Assert action completed successfully
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          # Under workflow_dispatch, the action hits the catch-all ignore rule
+          # in ignore.ts and exits cleanly without reading the config or
+          # performing any GitHub API operations on issues/PRs.
+          if [ "$OUTCOME" = "success" ]; then
+            echo "PASS: action completed successfully"
+          else
+            echo "FAIL: expected success but got: $OUTCOME"
+            exit 1
+          fi

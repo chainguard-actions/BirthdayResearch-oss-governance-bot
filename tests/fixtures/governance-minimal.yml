@@ -1,0 +1,8 @@
+version: v1
+
+issue:
+  labels:
+    - prefix: kind
+      list: ["bug", "feature"]
+      multiple: false
+      needs: true

@@ -1,0 +1,31 @@
+name: Test missing config path (action ignores workflow_dispatch before reading config)
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - id: action
+        name: Run OSS Governance Bot with non-existent config path
+        uses: .
+        with:
+          github-token: ${{ github.token }}
+          config-path: .github/nonexistent-governance-config-xyz.yml
+        continue-on-error: true
+
+      - name: Assert action succeeded (ignore fires before config is read)
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          # Under workflow_dispatch, the action hits the catch-all ignore rule
+          # in ignore.ts BEFORE calling getConfig(), so the config file is never
+          # fetched and a missing config path does NOT cause a failure.
+          if [ "$OUTCOME" = "success" ]; then
+            echo "PASS: action correctly succeeded (event was ignored before config read)"
+          else
+            echo "FAIL: expected success but got: $OUTCOME"
+            exit 1
+          fi

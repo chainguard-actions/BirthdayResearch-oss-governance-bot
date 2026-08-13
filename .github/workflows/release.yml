@@ -1,0 +1,16 @@
+name: Release Tags
+
+on:
+  release:
+    types: [ released ]
+
+permissions:
+  contents: write
+
+jobs:
+  release-tags:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
+
+      - uses: vweevers/additional-tags-action@f54689cf358d5368ed738306a414a3b020957296

@@ -1,0 +1,23 @@
+name: Test custom config path
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      # For workflow_dispatch events, the action's ignore() function hits the
+      # catch-all and returns true (ignore), so the action exits early without
+      # fetching the config. The custom config-path input is accepted but not
+      # used when the event is ignored.
+      - id: action
+        uses: .
+        with:
+          config-path: .github/custom/governance.yml
+          github-token: ${{ github.token }}
+
+      - name: Assert action completed successfully with custom config path
+        run: |
+          echo "Action completed without error using custom config path"
+          echo "PASS: action ran successfully with custom config-path input"

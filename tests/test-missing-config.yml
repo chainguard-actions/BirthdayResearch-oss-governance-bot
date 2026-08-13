@@ -1,0 +1,29 @@
+name: Test missing config file does not cause failure for ignored events
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      # For workflow_dispatch events, the action's ignore() function hits the
+      # catch-all and returns true (ignore), so the action exits early WITHOUT
+      # fetching the config file. This means even a nonexistent config path
+      # does not cause the action to fail — the event is simply ignored.
+      - id: action
+        uses: .
+        with:
+          config-path: .github/nonexistent-governance.yml
+          github-token: ${{ github.token }}
+
+      - name: Assert action succeeded despite missing config
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          if [ "$OUTCOME" != "success" ]; then
+            echo "FAIL: expected action to succeed (event ignored before config fetch), but got: $OUTCOME"
+            exit 1
+          fi
+          echo "PASS: action correctly succeeded — workflow_dispatch is ignored before config is fetched"

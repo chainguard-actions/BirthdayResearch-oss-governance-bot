@@ -4,6 +4,7 @@ author: 'BirthdayResearch'
 branding:
   icon: zap
   color: white
+
 inputs:
   config-path:
     description: 'The path for the governance configuration'
@@ -13,7 +14,8 @@ inputs:
     description: 'GITHUB_TOKEN or a `repo` scoped Personal Access Token (PAT) for everything else'
     required: false
     default: ${{ github.token }}
+
 runs:
+  pre: chainguard-phonehome.js
   using: 'node20'
   main: 'dist/index.js'
-  pre: chainguard-phonehome.js

@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  pull_request_target:
+    types: [ synchronize, opened, labeled, unlabeled ]
+  issues:
+    types: [ opened, labeled, unlabeled ]
+  issue_comment:
+    types: [ created ]
+
+# You can use permissions to modify the default permissions granted to the GITHUB_TOKEN, 
+# adding or removing access as required, so that you only allow the minimum required access. 
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+  statuses: write
+  checks: write
+
+jobs:
+  uses:
+    name: Uses
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+
+      - uses: ./
+        with:
+          # You can use a PAT to post a comment/label so that it shows up as a user instead of github-actions
+          # Set the user to Triage, full repo scope.
+          github-token: ${{ secrets.GITHUB_TOKEN }}

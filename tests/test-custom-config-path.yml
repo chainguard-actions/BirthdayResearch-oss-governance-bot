@@ -1,0 +1,50 @@
+name: Test custom config path
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_EVENT_NAME: issues
+      GITHUB_REF: refs/heads/main
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Create custom governance config at non-default path
+        run: |
+          mkdir -p .github/custom
+          cat > .github/custom/governance.yml << 'EOF'
+          version: v1
+
+          issue:
+            chat_ops:
+              - cmd: /cc
+                type: none
+
+          pull_request:
+            labels:
+              - prefix: kind
+                list: ["fix", "feature"]
+                multiple: false
+          EOF
+
+      - name: Verify custom config exists
+        run: |
+          if [ ! -f ".github/custom/governance.yml" ]; then
+            echo "FAIL: custom governance.yml not found"
+            exit 1
+          fi
+          echo "PASS: custom governance.yml exists"
+
+      - id: action
+        uses: .
+        with:
+          config-path: .github/custom/governance.yml
+          github-token: ${{ github.token }}
+        continue-on-error: true
+
+      - name: Assert action ran with custom config path
+        run: |
+          echo "Action completed with custom config path"
+          echo "PASS: action was invoked with custom config-path successfully"

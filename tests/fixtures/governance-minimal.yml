@@ -1,0 +1,13 @@
+version: v1
+
+issue:
+  labels:
+    - prefix: kind
+      list: ["bug", "feature"]
+      multiple: false
+
+pull_request:
+  labels:
+    - prefix: kind
+      list: ["fix", "feature"]
+      multiple: false

@@ -1,0 +1,31 @@
+name: Test missing config path is gracefully ignored for workflow_dispatch
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      # The action is a governance bot designed for issues/pull_request events.
+      # For workflow_dispatch, the ignore() function hits the "catch all" branch
+      # and returns true WITHOUT fetching the config file. Therefore the action
+      # exits cleanly (success) even when the config path does not exist.
+      - id: action
+        uses: .
+        with:
+          github-token: ${{ github.token }}
+          config-path: .github/nonexistent-governance-config.yml
+        continue-on-error: true
+
+      - name: Assert action succeeded despite missing config
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          if [ "$OUTCOME" != "success" ]; then
+            echo "FAIL: expected action to succeed for workflow_dispatch (config not fetched), got: $OUTCOME"
+            exit 1
+          fi
+          echo "PASS: action correctly exited cleanly for workflow_dispatch even with missing config"

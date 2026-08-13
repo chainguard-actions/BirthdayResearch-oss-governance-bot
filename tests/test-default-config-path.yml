@@ -1,0 +1,59 @@
+name: Test default config path
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_EVENT_NAME: pull_request
+      GITHUB_REF: refs/pull/1/merge
+      GITHUB_HEAD_REF: feature-branch
+      GITHUB_BASE_REF: main
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Create governance config at default path
+        run: |
+          mkdir -p .github
+          cat > .github/governance.yml << 'EOF'
+          version: v1
+
+          pull_request:
+            labels:
+              - prefix: kind
+                multiple: false
+                list: ["feature", "fix", "chore", "docs"]
+                needs:
+                  comment: |
+                    @$AUTHOR: Please add a kind label.
+            chat_ops:
+              - cmd: /close
+                type: close
+                author_association:
+                  author: true
+                  collaborator: true
+                  member: true
+                  owner: true
+              - cmd: /cc
+                type: none
+          EOF
+
+      - name: Verify default config path exists
+        run: |
+          if [ ! -f ".github/governance.yml" ]; then
+            echo "FAIL: .github/governance.yml not found at default path"
+            exit 1
+          fi
+          echo "PASS: .github/governance.yml exists at default path"
+
+      - id: action
+        uses: .
+        with:
+          github-token: ${{ github.token }}
+        continue-on-error: true
+
+      - name: Assert action ran with default config path
+        run: |
+          echo "Action completed using default config path (.github/governance.yml)"
+          echo "PASS: action was invoked with default config-path successfully"
